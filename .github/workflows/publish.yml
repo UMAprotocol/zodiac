@@ -21,22 +21,6 @@ jobs:
       - run: yarn build:sdk
       - run: yarn coverage
 
-  publish-npm:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: 16
-          registry-url: https://registry.npmjs.org/
-      - run: yarn
-      - run: yarn build
-      - run: yarn build:sdk
-      - run: yarn release
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.PUBLISH_NPM_TOKEN}}
-
   publish-gpr:
     needs: build
     runs-on: ubuntu-latest
@@ -46,11 +30,11 @@ jobs:
         with:
           node-version: 16
           registry-url: https://npm.pkg.github.com/
-          scope: '@gnosis.pm'
+          scope: '@uma'
       - run: yarn
       - run: yarn build
       - run: yarn build:sdk
-      - run: echo registry=https://npm.pkg.github.com/gnosis.pm >> .npmrc
+      - run: echo registry=https://npm.pkg.github.com/uma >> .npmrc
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.PUBLISH_GITHUB_TOKEN}}
